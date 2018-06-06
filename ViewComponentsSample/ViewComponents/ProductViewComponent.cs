@@ -11,15 +11,12 @@ namespace ViewComponentsSample.ViewComponents
     {
         private readonly ProductService _productService;
 
-        public ProductViewComponent(ProductService productService)
-        {
-            _productService = productService;
-        }
+        public ProductViewComponent(ProductService productService) => _productService = productService;
 
         public IViewComponentResult Invoke(int numberOfItems, int skipItems)
         {
             ViewBag.PrintTitle = skipItems == 0 ? true : false;
-            var products = _productService.GetAll().Skip(skipItems).Take(numberOfItems);
+            var products = numberOfItems == 0 ? _productService.GetAll().Skip(skipItems) : _productService.GetAll().Skip(skipItems).Take(numberOfItems);
             return View(products);
         }
     }
