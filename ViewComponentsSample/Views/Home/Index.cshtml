@@ -79,3 +79,30 @@
         @await Component.InvokeAsync("Product", new { numberOfItems = 0, skipItems = 9 })
     </div>
 </div>
+<div class="row">
+    <div id="container" class="col-md-12">
+
+    </div>
+</div>
+@section scripts
+    {
+    <script>
+        var url = '@(Url.Action("ChildAction", "Home", null))';
+        var dest = 'container';
+        $(document).ready(function () {
+            ViewLoad(url, dest);
+        });
+
+        function ViewLoad(url,dest) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                cache: false,
+                data: { numberOfItems: 0, skipItems: 0  },
+                beforeSend: function () { $("#" + dest).html(""); }
+            }).done(function (result) {
+                $("#" + dest).html(result);
+            });
+        }
+    </script>
+}
